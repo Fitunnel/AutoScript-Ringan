@@ -24,29 +24,7 @@ NC='\e[0m'
 GREEN='\033[0;32m'
 ORANGE='\033[0;33m'
 LIGHT='\033[0;37m'
-
-BREDMENU='\033[1;31m'*
-NCMENU='\033[0m'*
-bblueMENU="\033[1;34m"*
-greenMENU='\033[0;32m'*
-YELLMENU='\033[0;33m'*
-bwhiteMENU='\033[1;37m'*
-
-# // Log account
-vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
-let vla=$vlx/2
-vmc=$(grep -c -E "^### " "/etc/xray/config.json")
-let vma=$vmc/2
-ssh1="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
-trx=$(grep -c -E "^#! " "/etc/xray/config.json")
-let trb=$trx/2
-ssx=$(grep -c -E "^#ss# " "/etc/xray/config.json")
-let ssa=$ssx/2
-
-a="ACCOUNT PREMIUM" 
-KANAN="\033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m${NCMENU}"
-KIRI="\033[1;32m>\033[1;33m>\033[1;31m>\033[1;31m${NCMENU}"
-
+# VPS Information
 #Domain
 domain=$(cat /etc/xray/domain)
 #Status certificate
@@ -82,18 +60,13 @@ Name=$"Dev-Alfi"
 cpu_usage1="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
 cpu_usage="$((${cpu_usage1/\.*} / ${corediilik:-1}))"
 cpu_usage+=" %"
-ISP=$(curl -s ipinfo.io/org?token=ce3da57536810d | cut -d " " -f 2-10 )
-CITY=$(curl -s ipinfo.io/city?token=ce3da57536810d )
+#ISP=$(curl -s ipinfo.io/org?token=ce3da57536810d | cut -d " " -f 2-10 )
+#CITY=$(curl -s ipinfo.io/city?token=ce3da57536810d )
 #WKT=$(curl -s ipinfo.io/timezone?token=ce3da57536810d )
 DAY=$(date +%A)
 DATE=$(date +%m/%d/%Y)
 DATE2=$(date -R | cut -d " " -f -5)
-MODEL=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
-DATEVPS=$(date +'%d-%m-%Y')
-TIMEZONE=$(printf '%(%H-%M-%S)T')
-SERONLINE=$(uptime -p | cut -d " " -f 2-10000)
-IPVPS=$(curl -s ipv4.icanhazip.com)
-
+IPVPS=$(curl -s ifconfig.me )
 LOC=$(curl -s ifconfig.co/country )
 cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
@@ -101,47 +74,26 @@ freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
 tram=$( free -m | awk 'NR==2 {print $2}' )
 uram=$( free -m | awk 'NR==2 {print $3}' )
 fram=$( free -m | awk 'NR==2 {print $4}' )
-clear
-echo -e " "                                                           
-echo -e " ${NCMENU} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NCMENU}"
-echo -e " ${NCMENU} │${bwhiteMENU}\033[41m        WELCOME TO AUTOSCRIPT PREMIUM AlfiStoreVPN       ${NCMENU}│${NCMENU}"
-echo -e " ${NCMENU} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NCMENU}"
-echo -e " ${NCMENU} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}SYSTEM VPS ${YELLMENU} : ${NCMENU}$MODEL${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}RAM SERVER ${YELLMENU} : ${NCMENU}$uram / $tram MB ${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}DATE ${YELLMENU}       : ${NCMENU}$DATEVPS${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}TIME ${YELLMENU}       : ${NCMENU}$TIMEZONE${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}UPTIME ${YELLMENU}     : ${NCMENU}$SERONLINE${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}IP VPS ${YELLMENU}     : ${BREDMENU}$IPVPS${NCMENU}"
-echo -e " ${NCMENU} │$BREDMENU » ${bblueMENU}DOMAIN ${YELLMENU}     : ${greenMENU}$domain${NCMENU}"
-echo -e " ${NCMENU} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛$NCMENU"
-echo -e " ${NCMENU}                     ${KIRI} INFORMATION ACCOUNT ${KANAN}"
-echo -e " ${NCMENU}         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NCMENU}" | lolcat
-echo -e "               ${BREDMENU} SSH/OPENVPN/UDP  $YELLMENU:$NCMENU $ssh1  ${YELLMENU}$a"
-echo -e "               ${BREDMENU} VMESS/WS/GRPC    $YELLMENU:$NCMENU $vma  ${YELLMENU}$a"
-echo -e "               ${BREDMENU} VLESS/WS/GRPC    $YELLMENU:$NCMENU $vla  ${YELLMENU}$a"
-echo -e "               ${BREDMENU} TROJAN/WS/GRPC   $YELLMENU:$NCMENU $trb  ${YELLMENU}$a"
-echo -e "               ${BREDMENU} SHADOW/WS/GRPC   $YELLMENU:$NCMENU $ssa  ${YELLMENU}$a"
-echo -e " ${NCMENU}         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NCMENU}" | lolcat
-echo -e " ${NCMENU}              ${KIRI} MENU AUTOSCRIPT BY AlfiStoreVPN  ${KANAN}"
-echo -e " ${NCMENU} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NCMENU}"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}1$NCMENU]${YELLMENU} MENU SSH  $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}2$NCMENU]${YELLMENU} MENU VMESS $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}3$NCMENU]${YELLMENU} MENU VLESS $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}4$NCMENU]${YELLMENU} MENU TROJAN $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}5$NCMENU]${YELLMENU} MENU SHADOW $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}6$NCMENU]${YELLMENU} MENU SETTING $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}7$NCMENU]${YELLMENU} RUNNING CEK $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}8$NCMENU]${YELLMENU} CLEAR CACHE $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}9$NCMENU]${YELLMENU} REBOOT VPS $NCMENU"
-echo -e " ${NCMENU} │$NCMENU [${BREDMENU}10$NCMENU]${YELLMENU} EXIT SCRIPT $NCMENU"
-echo -e " ${NCMENU} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NCMENU}"
-echo -e " ${NCMENU} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NCMENU}"
-echo -e " ${NCMENU} │$bblueMENU Script Version $YELLMENU:$NCMENU v1.0 (New)"
-echo -e " ${NCMENU} │$bblueMENU Client Name    $YELLMENU:$NCMENU $Name"
-echo -e " ${NCMENU} │$bblueMENU Developer        $YELLMENU:$greenMENU AlfiStoreVPN "
-echo -e " ${NCMENU} │$bblueMENU Expired script $YELLMENU:$NCMENU $Exp2" ${NCMENU}"
-echo -e " ${NCMENU} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NCMENU}"
+clear 
+echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[1;34m                       MENU                       \e[0m"
+echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e   ""
+echo -e "\e[1;36m 1 \e[0m: Menu SSH"
+echo -e "\e[1;36m 2 \e[0m: Menu Vmess"
+echo -e "\e[1;36m 3 \e[0m: Menu Vless"
+echo -e "\e[1;36m 4 \e[0m: Menu Trojan"
+echo -e "\e[1;36m 5 \e[0m: Menu Shadowsocks"
+echo -e "\e[1;36m 6 \e[0m: Menu Setting"
+echo -e "\e[1;36m 7 \e[0m: Status Service"
+echo -e "\e[1;36m 8 \e[0m: Clear RAM Cache"
+echo -e "\e[1;36m 9 \e[0m: Reboot VPS"
+echo -e "\e[1;36m x \e[0m: Exit Script"
+echo -e   ""
+echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[1;32m Client Name \e[0m: $Name"
+echo -e "\e[1;32m Expired     \e[0m: $Exp2"
+echo -e "\e[1;33m -------------------------------------------------\e[0m"
 echo -e   ""
 read -p " Select menu :  "  opt
 echo -e   ""
